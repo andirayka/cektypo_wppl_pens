@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
+import { Box } from "@material-ui/core";
 
 function Copyright() {
   return (
@@ -54,19 +55,26 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
+
+  boxHasil: {
+    border: "1px solid black",
+    borderRadius: 4,
+    padding: 8,
+    height: 250,
+  },
 }));
 
-const database = ["buku", "pensil", "kertas"];
+const databaseSementara = ["buku", "pensil", "kertas"];
 
-export default function Album() {
+const Album = () => {
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState("");
+  const [arrKata, setArrKata] = useState([]);
+  const refBoxHasil = useRef(null);
 
   const classes = useStyles();
 
   const cekTypo = () => {
-    setOutput(input);
-    // const arrayKata = input.split(" ");
+    setArrKata(input.split(" "));
   };
 
   return (
@@ -80,6 +88,7 @@ export default function Album() {
           </Typography>
         </Toolbar>
       </AppBar>
+
       <main>
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
@@ -126,18 +135,27 @@ export default function Album() {
             >
               Hasil Deteksi
             </Typography>
-            <form noValidate autoComplete="off" style={{ marginTop: 20 }}>
-              <TextField
-                value={output}
-                variant="filled"
-                multiline
-                rows={12}
-                fullWidth
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </form>
+            <Box
+              component="div"
+              m={1}
+              ref={refBoxHasil}
+              className={classes.boxHasil}
+            >
+              {arrKata.map((item, key) => {
+                if (databaseSementara.includes(item)) {
+                  return (
+                    <span key={key} style={{ color: "black" }}>
+                      {item}{" "}
+                    </span>
+                  );
+                }
+                return (
+                  <span key={key} style={{ color: "red" }}>
+                    {item}{" "}
+                  </span>
+                );
+              })}
+            </Box>
           </Container>
         </div>
       </main>
@@ -159,4 +177,6 @@ export default function Album() {
       {/* End footer */}
     </React.Fragment>
   );
-}
+};
+
+export default Album;
