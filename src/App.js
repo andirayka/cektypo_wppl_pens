@@ -12,19 +12,6 @@ import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import { Box } from "@material-ui/core";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Kelompok 6
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -66,15 +53,25 @@ const useStyles = makeStyles((theme) => ({
 
 const databaseSementara = ["buku", "pensil", "kertas"];
 
-const Album = () => {
-  const [input, setInput] = useState("");
+const PageCekTypo = () => {
+  const [inputText, setInputText] = useState("");
   const [arrKata, setArrKata] = useState([]);
-  const refBoxHasil = useRef(null);
 
-  const classes = useStyles();
+  const styles = useStyles();
 
-  const cekTypo = () => {
-    setArrKata(input.split(" "));
+  const cekTypo = (text) => {
+    setArrKata((text || inputText).split(" "));
+  };
+
+  const showFile = async (e) => {
+    e.preventDefault();
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const text = e.target.result;
+      setInputText(text);
+      cekTypo(text);
+    };
+    reader.readAsText(e.target.files[0]);
   };
 
   return (
@@ -82,7 +79,7 @@ const Album = () => {
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-          <EmojiObjectsIcon className={classes.icon} />
+          <EmojiObjectsIcon className={styles.icon} />
           <Typography variant="h6" color="inherit" noWrap>
             Pendeteksi Salah Ketik Bahasa Indonesia
           </Typography>
@@ -90,7 +87,7 @@ const Album = () => {
       </AppBar>
 
       <main>
-        <div className={classes.heroContent}>
+        <div className={styles.heroContent}>
           <Container maxWidth="sm">
             <Typography
               component="h1"
@@ -102,8 +99,10 @@ const Album = () => {
               Masukkan Teks yang Akan Dideteksi
             </Typography>
             <form noValidate autoComplete="off">
+              <input type="file" onChange={showFile} />
               <TextField
-                onChange={(e) => setInput(e.target.value)}
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
                 id="outlined-basic"
                 variant="outlined"
                 multiline
@@ -111,7 +110,7 @@ const Album = () => {
                 fullWidth
               />
             </form>
-            <div className={classes.heroButtons}>
+            <div className={styles.heroButtons}>
               <Grid container justify="center">
                 <Button
                   variant="contained"
@@ -135,22 +134,17 @@ const Album = () => {
             >
               Hasil Deteksi
             </Typography>
-            <Box
-              component="div"
-              m={1}
-              ref={refBoxHasil}
-              className={classes.boxHasil}
-            >
+            <Box component="div" m={1} className={styles.boxHasil}>
               {arrKata.map((item, key) => {
                 if (databaseSementara.includes(item)) {
                   return (
-                    <span key={key} style={{ color: "black" }}>
+                    <span key={key} style={{ color: "black", fontSize: 16 }}>
                       {item}{" "}
                     </span>
                   );
                 }
                 return (
-                  <span key={key} style={{ color: "red" }}>
+                  <span key={key} style={{ color: "red", fontSize: 16 }}>
                     {item}{" "}
                   </span>
                 );
@@ -160,7 +154,7 @@ const Album = () => {
         </div>
       </main>
       {/* Footer */}
-      <footer className={classes.footer}>
+      <footer className={styles.footer}>
         <Typography variant="h6" align="center" gutterBottom>
           Kelompok 6
         </Typography>
@@ -172,11 +166,19 @@ const Album = () => {
         >
           Tugas Workshop Produksi Perangkat Lunak
         </Typography>
-        <Copyright />
+
+        <Typography variant="body2" color="textSecondary" align="center">
+          {"Copyright © "}
+          <Link color="inherit" href="#">
+            Kelompok 6
+          </Link>{" "}
+          {new Date().getFullYear()}
+          {"."}
+        </Typography>
       </footer>
       {/* End footer */}
     </React.Fragment>
   );
 };
 
-export default Album;
+export default PageCekTypo;
