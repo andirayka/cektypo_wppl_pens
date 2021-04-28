@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
@@ -11,6 +11,11 @@ import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import { Box } from "@material-ui/core";
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:3001/",
+});
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -51,16 +56,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const databaseSementara = ["buku", "pensil", "kertas"];
+// const databaseSementara = ["buku", "pensil", "kertas"];
 
 const PageCekTypo = () => {
   const [inputText, setInputText] = useState("");
-  const [arrKata, setArrKata] = useState([]);
+  const [dataKata, setDataKata] = useState([]); // Array of Objects
 
   const styles = useStyles();
 
-  const cekTypo = (text) => {
-    setArrKata((text || inputText).split(" "));
+  const cekTypo = async (text) => {
+    const arrKata = (text || inputText).split(" ");
+    let newDataKata = [];
+    for (let i = 0; i < arrKata.length; i++) {
+      const item = arrKata[i];
+
+      const { data: resData } = await api.get(`cekkata/${item}`);
+      newDataKata = [...newDataKata, { kata: item, isValid: resData }];
+    }
+    // console.log(newDataKata);
+    setDataKata(newDataKata);
   };
 
   const showFile = async (e) => {
@@ -99,7 +113,14 @@ const PageCekTypo = () => {
               Masukkan Teks yang Akan Dideteksi
             </Typography>
             <form noValidate autoComplete="off">
-              <input type="file" onChange={showFile} />
+              <Button
+                variant="contained"
+                component="label"
+                style={{ marginBottom: 10 }}
+              >
+                Unggah File Txt
+                <input type="file" hidden onChange={showFile} />
+              </Button>
               <TextField
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
@@ -117,7 +138,7 @@ const PageCekTypo = () => {
                   color="primary"
                   size="large"
                   style={{ padding: "12px 100px" }}
-                  onClick={cekTypo}
+                  onClick={() => cekTypo(inputText)}
                 >
                   Deteksi
                 </Button>
@@ -135,17 +156,17 @@ const PageCekTypo = () => {
               Hasil Deteksi
             </Typography>
             <Box component="div" m={1} className={styles.boxHasil}>
-              {arrKata.map((item, key) => {
-                if (databaseSementara.includes(item)) {
+              {dataKata.map((item, key) => {
+                if (item.isValid) {
                   return (
                     <span key={key} style={{ color: "black", fontSize: 16 }}>
-                      {item}{" "}
+                      {item.kata}{" "}
                     </span>
                   );
                 }
                 return (
                   <span key={key} style={{ color: "red", fontSize: 16 }}>
-                    {item}{" "}
+                    {item.kata}{" "}
                   </span>
                 );
               })}
