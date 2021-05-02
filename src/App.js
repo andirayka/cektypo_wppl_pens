@@ -118,7 +118,7 @@ const PageCekTypo = () => {
                 component="label"
                 style={{ marginBottom: 10 }}
               >
-                Unggah File Txt
+                Txt
                 <input type="file" hidden onChange={showFile} />
               </Button>
               <TextField
