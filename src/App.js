@@ -56,8 +56,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const databaseSementara = ["buku", "pensil", "kertas"];
-
 const PageCekTypo = () => {
   const [inputText, setInputText] = useState("");
   const [dataKata, setDataKata] = useState([]); // Array of Objects
@@ -77,6 +75,25 @@ const PageCekTypo = () => {
     setDataKata(newDataKata);
   };
 
+  const downloadTxtFile = () => {
+    const element = document.createElement("a");
+    const listKataTypo = dataKata
+      .filter((o) => !o.isValid)
+      .map((o) => o.kata)
+      .join(", ");
+    console.log(dataKata);
+    const file = new Blob(
+      [
+        `TEKS YANG DICEK:\n${inputText}\n\nKATA YANG SALAH KETIK:\n${listKataTypo}`,
+      ],
+      { type: "text/plain" }
+    );
+    element.href = URL.createObjectURL(file);
+    element.download = "Hasil Pengecekan.txt";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  };
+
   const showFile = async (e) => {
     e.preventDefault();
     const reader = new FileReader();
@@ -89,7 +106,7 @@ const PageCekTypo = () => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
@@ -118,7 +135,7 @@ const PageCekTypo = () => {
                 component="label"
                 style={{ marginBottom: 10 }}
               >
-                Txt
+                Unggah File Txt
                 <input type="file" hidden onChange={showFile} />
               </Button>
               <TextField
@@ -155,6 +172,17 @@ const PageCekTypo = () => {
             >
               Hasil Deteksi
             </Typography>
+
+            {dataKata.length > 0 && (
+              <Button
+                variant="contained"
+                component="label"
+                style={{ marginBottom: 10 }}
+                onClick={downloadTxtFile}
+              >
+                Unduh Hasil Pengecekan
+              </Button>
+            )}
             <Box component="div" m={1} className={styles.boxHasil}>
               {dataKata.map((item, key) => {
                 if (item.isValid) {
@@ -198,7 +226,7 @@ const PageCekTypo = () => {
         </Typography>
       </footer>
       {/* End footer */}
-    </React.Fragment>
+    </>
   );
 };
 
