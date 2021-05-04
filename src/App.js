@@ -102,17 +102,37 @@ const PageCekTypo = () => {
 
       <main>
         <div className={styles.heroContent}>
-          <Container maxWidth="sm">
+          <Container maxWidth="md">
+            <h1>INFO dan TIPS</h1>
             <Typography
-              component="h1"
-              variant="h2"
-              align="center"
+              component="h6"
+              variant="h6"
+              align="left"
               color="textPrimary"
               gutterBottom
             >
-              Masukkan Teks yang Akan Dideteksi
+            
+             1. Gunakan Tools ini dengan internet dengan kecepatan yang stabil.
+             <br/>2. Anda dapat menggunggah file .txt atau dokumen pada Tools ini
+             <br/>3. Database kami tidak menyimpan nama orang, nama jalan, nomor dokumen atau angka, singkatan dan bahasa asing. Maka akan ditandai dengan font berwarna merah yang berarti typo.            
             </Typography>
-            <form noValidate autoComplete="off">
+
+            <h1>CARA PENGGUNAAN</h1>
+            <Typography
+              component="h6"
+              variant="h6"
+              align="left"
+              color="textPrimary"
+              gutterBottom
+            >
+             1. Siapkan teks berbahasa Indonesia yang akan dicek. Bisa berupa teks langsung atau teks dalam file txt. 
+             <br/>2. Inputkan pada kolom "Masukkan Teks yang Akan Dideteksi" lalu tekan Test
+             <br/>3. Hasil Deteksi akan otomatis ditambilkan pada kolom "Hasil Deteksi"
+            
+            </Typography>
+
+            <form noValidate autoComplete="off" style={{marginTop: 50}}>
+            
               <Button
                 variant="contained"
                 component="label"
