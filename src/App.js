@@ -118,7 +118,6 @@ const PageCekTypo = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-
       <main>
         <div className={styles.heroContent}>
           <Container maxWidth="md">
@@ -137,7 +136,7 @@ const PageCekTypo = () => {
              1. Gunakan Tools ini dengan internet dengan kecepatan yang stabil.
              <br/>2. Anda dapat menggunggah file .txt atau dokumen pada Tools ini
              <br/>3. Database kami tidak menyimpan nama orang, nama jalan, nomor dokumen atau angka, singkatan dan bahasa asing. Maka akan ditandai dengan font berwarna merah yang berarti typo.            
-            
+             <br/>4. Jika pergantian paragraf maka kata sebelum tanda titik (.) dan kata setelahnya akan ditandai dengan typo
             </Typography>
             </CardContent>
             </Card>
@@ -158,8 +157,17 @@ const PageCekTypo = () => {
             </Typography>
             </CardContent>
             </Card>
-
-            <form noValidate autoComplete="off" style={{marginTop: 50}}>
+            <Typography
+              style={{ marginTop: 70 }}
+              component="h3"
+              variant="h3"
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
+              Masukkan Kata yang Akan Dideteksi
+            </Typography>
+            <form noValidate autoComplete="off" style={{marginTop: 5 }}>
             
               <Button
                 variant="contained"
@@ -194,7 +202,7 @@ const PageCekTypo = () => {
             </div>
 
             <Typography
-              style={{ marginTop: 70 }}
+              style={{ marginTop: 50 }}
               component="h3"
               variant="h3"
               align="center"
@@ -234,7 +242,7 @@ const PageCekTypo = () => {
         </div>
       </main>
       {/* Footer */}
-      <footer className={styles.footer}>
+      <footer className={styles.footer} >
         <Typography variant="h6" align="center" gutterBottom>
           Kelompok 6
         </Typography>
