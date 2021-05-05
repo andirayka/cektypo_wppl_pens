@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
+import Card from "@material-ui/core/Card";
+import CardContent from '@material-ui/core/CardContent';
 import Button from "@material-ui/core/Button";
 import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -22,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.primary.light,
     padding: theme.spacing(8, 0, 6),
   },
   heroButtons: {
@@ -44,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   footer: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.text.secondary,
     padding: theme.spacing(6),
   },
 
@@ -120,6 +122,8 @@ const PageCekTypo = () => {
       <main>
         <div className={styles.heroContent}>
           <Container maxWidth="md">
+            <Card>
+            <CardContent>
             <h1>INFO dan TIPS</h1>
             <Typography
               component="h6"
@@ -127,14 +131,19 @@ const PageCekTypo = () => {
               align="left"
               color="textPrimary"
               gutterBottom
+              
             >
             
              1. Gunakan Tools ini dengan internet dengan kecepatan yang stabil.
              <br/>2. Anda dapat menggunggah file .txt atau dokumen pada Tools ini
              <br/>3. Database kami tidak menyimpan nama orang, nama jalan, nomor dokumen atau angka, singkatan dan bahasa asing. Maka akan ditandai dengan font berwarna merah yang berarti typo.            
+            
             </Typography>
-
-            <h1>CARA PENGGUNAAN</h1>
+            </CardContent>
+            </Card>
+            <br />
+            <Card>
+            <CardContent>            <h1>CARA PENGGUNAAN</h1>
             <Typography
               component="h6"
               variant="h6"
@@ -147,6 +156,8 @@ const PageCekTypo = () => {
              <br/>3. Hasil Deteksi akan otomatis ditambilkan pada kolom "Hasil Deteksi"
             
             </Typography>
+            </CardContent>
+            </Card>
 
             <form noValidate autoComplete="off" style={{marginTop: 50}}>
             
