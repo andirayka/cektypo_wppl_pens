@@ -22,9 +22,10 @@ const api = axios.create({
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
+    color: "black",
   },
   heroContent: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: "#f8eded",
     padding: theme.spacing(8, 0, 6),
   },
   heroButtons: {
@@ -46,8 +47,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   footer: {
-    backgroundColor: theme.palette.text.secondary,
-    padding: theme.spacing(6),
+    backgroundColor: "#e4bad4",
+    padding: theme.spacing(1),
   },
 
   boxHasil: {
@@ -111,9 +112,9 @@ const PageCekTypo = () => {
     <>
       <CssBaseline />
       <AppBar position="relative">
-        <Toolbar>
+        <Toolbar style={{backgroundColor: "#e4bad4"}}>
           <EmojiObjectsIcon className={styles.icon} />
-          <Typography variant="h6" color="inherit" noWrap>
+          <Typography variant="h6" style={{color: "black"}} noWrap>
             Pendeteksi Salah Ketik Bahasa Indonesia
           </Typography>
         </Toolbar>
@@ -172,7 +173,7 @@ const PageCekTypo = () => {
               <Button
                 variant="contained"
                 component="label"
-                style={{ marginBottom: 10 }}
+                style={{ marginBottom: 10, backgroundColor: "#caf7e3" }}
               >
                 Unggah File Txt
                 <input type="file" hidden onChange={showFile} />
@@ -191,9 +192,8 @@ const PageCekTypo = () => {
               <Grid container justify="center">
                 <Button
                   variant="contained"
-                  color="primary"
                   size="large"
-                  style={{ padding: "12px 100px" }}
+                  style={{ padding: "12px 100px", backgroundColor: "#caf7e3", color: "black"}}
                   onClick={() => cekTypo(inputText)}
                 >
                   Deteksi
@@ -242,10 +242,7 @@ const PageCekTypo = () => {
         </div>
       </main>
       {/* Footer */}
-      <footer className={styles.footer} >
-        <Typography variant="h6" align="center" gutterBottom>
-          Kelompok 6
-        </Typography>
+      <footer className={styles.footer } >
         <Typography
           variant="subtitle1"
           align="center"
