@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Card from "@material-ui/core/Card";
-import CardContent from '@material-ui/core/CardContent';
+import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,7 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
-import { Box } from "@material-ui/core";
+import { Box, InputLabel } from "@material-ui/core";
 import axios from "axios";
 
 const api = axios.create({
@@ -62,6 +62,15 @@ const useStyles = makeStyles((theme) => ({
 const PageCekTypo = () => {
   const [inputText, setInputText] = useState("");
   const [dataKata, setDataKata] = useState([]); // Array of Objects
+  // * Insert & Hapus kata
+  const [insertKata, setInsertKata] = useState({
+    password: "",
+    kata: "",
+  });
+  const [hapusKata, setHapusKata] = useState({
+    password: "",
+    kata: "",
+  });
 
   const styles = useStyles();
 
@@ -108,13 +117,39 @@ const PageCekTypo = () => {
     reader.readAsText(e.target.files[0]);
   };
 
+  const addKata = async () => {
+    if (insertKata.password == "kelompok6") {
+      const { data: resData } = await api.get(`insertkata/${insertKata.kata}`);
+      if (resData) {
+        alert(`Kata ${insertKata.kata} berhasil ditambahkan`);
+      } else {
+        alert(`Kata ${insertKata.kata} gagal ditambahkan`);
+      }
+    } else {
+      alert("Kata sandi salah");
+    }
+  };
+
+  const deleteKata = async () => {
+    if (hapusKata.password == "kelompok6") {
+      const { data: resData } = await api.get(`deletekata/${hapusKata.kata}`);
+      if (resData) {
+        alert(`Kata ${hapusKata.kata} berhasil ditambahkan`);
+      } else {
+        alert(`Kata ${hapusKata.kata} gagal ditambahkan`);
+      }
+    } else {
+      alert("Kata sandi salah");
+    }
+  };
+
   return (
     <>
       <CssBaseline />
       <AppBar position="relative">
-        <Toolbar style={{backgroundColor: "#e4bad4"}}>
+        <Toolbar style={{ backgroundColor: "#e4bad4" }}>
           <EmojiObjectsIcon className={styles.icon} />
-          <Typography variant="h6" style={{color: "black"}} noWrap>
+          <Typography variant="h6" style={{ color: "black" }} noWrap>
             Pendeteksi Salah Ketik Bahasa Indonesia
           </Typography>
         </Toolbar>
@@ -123,40 +158,52 @@ const PageCekTypo = () => {
         <div className={styles.heroContent}>
           <Container maxWidth="md">
             <Card>
-            <CardContent>
-            <h1>INFO dan TIPS</h1>
-            <Typography
-              component="h6"
-              variant="h6"
-              align="left"
-              color="textPrimary"
-              gutterBottom
-              
-            >
-            
-             1. Gunakan Tools ini dengan internet dengan kecepatan yang stabil.
-             <br/>2. Anda dapat menggunggah file .txt atau dokumen pada Tools ini
-             <br/>3. Database kami tidak menyimpan nama orang, nama jalan, nomor dokumen atau angka, singkatan dan bahasa asing. Maka akan ditandai dengan font berwarna merah yang berarti typo.            
-             <br/>4. Jika pergantian paragraf maka kata sebelum tanda titik (.) dan kata setelahnya akan ditandai dengan typo
-            </Typography>
-            </CardContent>
+              <CardContent>
+                <h1>INFO dan TIPS</h1>
+                <Typography
+                  component="h6"
+                  variant="h6"
+                  align="left"
+                  color="textPrimary"
+                  gutterBottom
+                >
+                  1. Gunakan Tools ini dengan internet dengan kecepatan yang
+                  stabil.
+                  <br />
+                  2. Anda dapat menggunggah file .txt atau dokumen pada Tools
+                  ini
+                  <br />
+                  3. Database kami tidak menyimpan nama orang, nama jalan, nomor
+                  dokumen atau angka, singkatan dan bahasa asing. Maka akan
+                  ditandai dengan font berwarna merah yang berarti typo.
+                  <br />
+                  4. Jika pergantian paragraf maka kata sebelum tanda titik (.)
+                  dan kata setelahnya akan ditandai dengan typo
+                </Typography>
+              </CardContent>
             </Card>
             <br />
             <Card>
-            <CardContent>            <h1>CARA PENGGUNAAN</h1>
-            <Typography
-              component="h6"
-              variant="h6"
-              align="left"
-              color="textPrimary"
-              gutterBottom
-            >
-             1. Siapkan teks berbahasa Indonesia yang akan dicek. Bisa berupa teks langsung atau teks dalam file txt. 
-             <br/>2. Inputkan pada kolom "Masukkan Teks yang Akan Dideteksi" lalu tekan Test
-             <br/>3. Hasil Deteksi akan otomatis ditambilkan pada kolom "Hasil Deteksi"
-            
-            </Typography>
-            </CardContent>
+              <CardContent>
+                {" "}
+                <h1>CARA PENGGUNAAN</h1>
+                <Typography
+                  component="h6"
+                  variant="h6"
+                  align="left"
+                  color="textPrimary"
+                  gutterBottom
+                >
+                  1. Siapkan teks berbahasa Indonesia yang akan dicek. Bisa
+                  berupa teks langsung atau teks dalam file txt.
+                  <br />
+                  2. Inputkan pada kolom "Masukkan Teks yang Akan Dideteksi"
+                  lalu tekan Test
+                  <br />
+                  3. Hasil Deteksi akan otomatis ditambilkan pada kolom "Hasil
+                  Deteksi"
+                </Typography>
+              </CardContent>
             </Card>
             <Typography
               style={{ marginTop: 70 }}
@@ -168,8 +215,7 @@ const PageCekTypo = () => {
             >
               Masukkan Kata yang Akan Dideteksi
             </Typography>
-            <form noValidate autoComplete="off" style={{marginTop: 5 }}>
-            
+            <form noValidate autoComplete="off" style={{ marginTop: 5 }}>
               <Button
                 variant="contained"
                 component="label"
@@ -193,7 +239,11 @@ const PageCekTypo = () => {
                 <Button
                   variant="contained"
                   size="large"
-                  style={{ padding: "12px 100px", backgroundColor: "#caf7e3", color: "black"}}
+                  style={{
+                    padding: "12px 100px",
+                    backgroundColor: "#caf7e3",
+                    color: "black",
+                  }}
                   onClick={() => cekTypo(inputText)}
                 >
                   Deteksi
@@ -216,7 +266,7 @@ const PageCekTypo = () => {
               <Button
                 variant="contained"
                 component="label"
-                style={{ marginBottom: 10 }}
+                style={{ marginBottom: 10, backgroundColor: "#caf7e3" }}
                 onClick={downloadTxtFile}
               >
                 Unduh Hasil Pengecekan
@@ -238,11 +288,103 @@ const PageCekTypo = () => {
                 );
               })}
             </Box>
+
+            {/* TAMBAH KATA */}
+            <Grid container alignItems="center" style={{ marginTop: 100 }}>
+              <Grid item xs={2}>
+                <InputLabel>Tambah Kata</InputLabel>
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  variant="outlined"
+                  label="Kata Sandi"
+                  fullWidth
+                  value={insertKata.password}
+                  onChange={(e) =>
+                    setInsertKata((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  variant="outlined"
+                  label="Kata yang Ditambah"
+                  style={{ marginLeft: 8 }}
+                  fullWidth
+                  value={insertKata.kata}
+                  onChange={(e) =>
+                    setInsertKata((prev) => ({
+                      ...prev,
+                      kata: e.target.value,
+                    }))
+                  }
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Button
+                  variant="contained"
+                  component="label"
+                  style={{ backgroundColor: "greenyellow", marginLeft: 16 }}
+                  onClick={addKata}
+                >
+                  Tambah
+                </Button>
+              </Grid>
+            </Grid>
+
+            {/* HAPUS KATA */}
+            <Grid container alignItems="center" style={{ marginTop: 20 }}>
+              <Grid item xs={2}>
+                <InputLabel>Hapus Kata</InputLabel>
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  variant="outlined"
+                  label="Kata Sandi"
+                  fullWidth
+                  value={hapusKata.password}
+                  onChange={(e) =>
+                    setHapusKata((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  variant="outlined"
+                  label="Kata yang Dihapus"
+                  style={{ marginLeft: 8 }}
+                  fullWidth
+                  value={hapusKata.kata}
+                  onChange={(e) =>
+                    setHapusKata((prev) => ({
+                      ...prev,
+                      kata: e.target.value,
+                    }))
+                  }
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Button
+                  variant="contained"
+                  component="label"
+                  style={{ backgroundColor: "orange", marginLeft: 16 }}
+                  onClick={deleteKata}
+                >
+                  Hapus
+                </Button>
+              </Grid>
+            </Grid>
           </Container>
         </div>
       </main>
       {/* Footer */}
-      <footer className={styles.footer } >
+      <footer className={styles.footer}>
         <Typography
           variant="subtitle1"
           align="center"
